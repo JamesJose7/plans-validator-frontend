@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import validatorApi from "./validatorApi";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+import IndicatorList from "./reports/indicators/IndicatorList";
+import {Container} from "react-bootstrap";
+
 class App extends Component {
+
+    state = {
+        indicators: [],
+        isLoading: true
+    }
 
     componentDidMount() {
         this.getPlanReport();
@@ -11,7 +20,12 @@ class App extends Component {
 
     getPlanReport = (periodo = '46c50734-4710-008a-e053-ac10360c415f', componente = 'UTPL-TNCIV0055') => {
         axios.get(validatorApi.urls().report(periodo, componente))
-            .then(response => console.log(response.data))
+            .then(response => {
+                this.setState({
+                    indicators: response.data.indicadores,
+                    isLoading: false
+                })
+            })
             .catch(error => {
                 if (error.response.data.status !== undefined)
                     console.log(error.response.data); // Handle custom error response
@@ -21,10 +35,18 @@ class App extends Component {
     };
 
     render() {
-        return (
-            <div className="App">
+        const { indicators, isLoading } = this.state;
 
-            </div>
+        return (
+            <Container>
+                { !isLoading ?
+                    <IndicatorList
+                        data={indicators}
+                    />
+                    :
+                    <p>Cargando...</p>
+                }
+            </Container>
         )
     }
 }
