@@ -21,6 +21,9 @@ const IndicatorList = ({ data }) => {
                 index={index + 1}
                 name={indicator.nombre}
                 successful={indicator.exitoso}
+                criteria={indicator.criterio}
+                description={indicator.descripcion}
+                errors={indicator.errores === null ? [] : indicator.errores}
             />
         )
     } else

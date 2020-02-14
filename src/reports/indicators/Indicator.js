@@ -14,6 +14,7 @@ const NumberCircle = styled.div`
     height: 40px;
     margin: 5px 0;
     border-radius: 100%;
+    font-weight: bold;
     transition: box-shadow .8s;
     > p {
         line-height: 40px;
@@ -25,6 +26,7 @@ const IndicatorItem = styled(Row)`
     border-radius: 100px;
     cursor: pointer;
     position: relative;
+    z-index: 50;
     &:hover {
         ${NumberCircle} {
             box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -79,12 +81,14 @@ class Indicator extends Component {
 
     render() {
         const { isopen } = this.state;
-        const {index, name, successful} = this.props;
+        const {index, name, successful, criteria, description, errors} = this.props;
 
         return (
             <div className="mb-3">
                 <Container>
-                    <IndicatorItem>
+                    <IndicatorItem
+                        onClick={this.handleOpenClose}
+                    >
                         <Col md={7} lg={8} className="indicator-section">
                             <NumberCircle>
                                 <p className="m-0">{index}</p>
@@ -110,7 +114,6 @@ class Indicator extends Component {
                                         successful={successful}
                                     />
                                     <ArrowIcon
-                                        toggleOpenClose={this.handleOpenClose}
                                         isopen={isopen}
                                     />
                                 </CenterWrapper>
@@ -119,6 +122,9 @@ class Indicator extends Component {
                     </IndicatorItem>
                     <IndicatorDetails
                         isopen={isopen}
+                        criteria={criteria}
+                        description={description}
+                        errors={errors}
                     />
                 </Container>
                 <div style={{height: '30px'}}></div>
