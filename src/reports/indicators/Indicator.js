@@ -6,80 +6,80 @@ import ArrowIcon from "../../icons/ArrowIcon";
 import InfoIcon from "../../icons/InfoIcon";
 import IndicatorDetails from "./IndicatorDetails";
 
+const NumberCircle = styled.div`
+    background: #fff;
+    text-align: center;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 5px 0;
+    border-radius: 100%;
+    transition: box-shadow .8s;
+    > p {
+        line-height: 40px;
+    }
+`;
+
+const IndicatorItem = styled(Row)`
+    background: #F9F9F9;
+    border-radius: 100px;
+    cursor: pointer;
+    position: relative;
+    &:hover {
+        ${NumberCircle} {
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+    @media ${device.medium} {
+        .indicator-section {
+            border-right: 5px solid #fff;
+        }
+        .indicator-section:last-child {
+            padding-left: 0;
+        }
+    }
+`;
+
+const IndicatorName = styled.p`
+    display: inline-block;
+    margin-left: 15px;
+`;
+
+const ItemsContainer = styled.div`
+    height: 53px;
+    display: table;
+    width: 100%;
+`;
+
+const CenterWrapper = styled.div`
+    display: table-cell;
+    vertical-align: middle;
+`;
+
+const colorSuccess = '#9ACD32'
+const colorFailure = '#E30613'
+const SuccessBar = styled(({successful, ...props}) => <ProgressBar {...props} />)`
+    height: .5rem;
+    .progress-bar {
+      background-color: ${props => props.successful ? colorSuccess : colorFailure};
+    }
+`;
+
 class Indicator extends Component {
 
     state = {
-        isOpen: false
+        isopen: false
     }
 
     handleOpenClose = () => {
         this.setState(prevState => ({
-            isOpen: !prevState.isOpen
+            isopen: !prevState.isopen
         }))
     }
 
     render() {
-        const { isOpen } = this.state;
+        const { isopen } = this.state;
         const {index, name, successful} = this.props;
-
-        const NumberCircle = styled.div`
-            background: #fff;
-            text-align: center;
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            margin: 5px 0;
-            border-radius: 100%;
-            transition: box-shadow .8s;
-            > p {
-                line-height: 40px;
-            }
-        `;
-
-        const IndicatorItem = styled(Row)`
-            background: #F9F9F9;
-            border-radius: 100px;
-            cursor: pointer;
-            position: relative;
-            &:hover {
-                ${NumberCircle} {
-                    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-                }
-            }
-            @media ${device.medium} {
-                .indicator-section {
-                    border-right: 5px solid #fff;
-                }
-                .indicator-section:last-child {
-                    padding-left: 0;
-                }
-            }
-        `;
-
-        const IndicatorName = styled.p`
-            display: inline-block;
-            margin-left: 15px;
-        `;
-
-        const ItemsContainer = styled.div`
-            height: 53px;
-            display: table;
-            width: 100%;
-        `;
-
-        const CenterWrapper = styled.div`
-            display: table-cell;
-            vertical-align: middle;
-        `;
-
-        const colorSuccess = '#9ACD32'
-        const colorFailure = '#E30613'
-        const SuccessBar = styled(ProgressBar)`
-            height: .5rem;
-            .progress-bar {
-              background-color: ${successful ? colorSuccess : colorFailure};
-            }
-        `;
 
         return (
             <div className="mb-3">
@@ -94,7 +94,10 @@ class Indicator extends Component {
                         <Col md={3} lg={3} className="indicator-section position-relative">
                             <ItemsContainer>
                                 <CenterWrapper>
-                                    <SuccessBar now={100}/>
+                                    <SuccessBar
+                                        now={100}
+                                        successful={successful}
+                                    />
                                 </CenterWrapper>
                             </ItemsContainer>
                         </Col>
@@ -108,14 +111,14 @@ class Indicator extends Component {
                                     />
                                     <ArrowIcon
                                         toggleOpenClose={this.handleOpenClose}
-                                        isOpen={isOpen}
+                                        isopen={isopen}
                                     />
                                 </CenterWrapper>
                             </ItemsContainer>
                         </Col>
                     </IndicatorItem>
                     <IndicatorDetails
-                        isOpen={isOpen}
+                        isopen={isopen}
                     />
                 </Container>
                 <div style={{height: '30px'}}></div>

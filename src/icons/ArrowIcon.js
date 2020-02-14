@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const ArrowIcon = ({ toggleOpenClose, isOpen }) => {
-    const IconWrapper = styled.div`
+const IconWrapper = styled.div`
         display: inline-block;
         svg {
             fill-opacity: 54%;
         }
     `;
+
+const ArrowIcon = ({ toggleOpenClose, isOpen }) => {
 
     return (
         <IconWrapper>
