@@ -33,7 +33,7 @@ const Detail = styled.p`
     font-size: 1em;
 `;
 
-const IndicatorDetails = ({ isopen, errors, criteria, description }) => {
+const IndicatorDetails = ({ isopen, errors, description }) => {
 
     return (
         <DetailsContainer
@@ -43,18 +43,16 @@ const IndicatorDetails = ({ isopen, errors, criteria, description }) => {
                 isopen={isopen}
             >
                 <div>
-                    <DetailTitle>Criterio</DetailTitle>
-                    <Detail>{criteria !== null || criteria !== '' ? criteria : 'Sin criterio'}</Detail>
-                </div>
-                <div>
                     <DetailTitle>Descripción</DetailTitle>
                     <Detail>{description !== null || description !== '' ? description : 'Sin  descripción'}</Detail>
                 </div>
                 { errors.length > 0 ?
                     <div>
                         <DetailTitle color="#E30613">Errores</DetailTitle>
-                        {errors.map(error => (
-                            <Detail>{ error }</Detail>
+                        {errors.map((error, index) => (
+                            <Detail
+                                key={index}
+                            >{ error }</Detail>
                         ))}
                     </div>
                     :

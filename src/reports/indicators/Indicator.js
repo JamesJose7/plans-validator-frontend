@@ -81,7 +81,7 @@ class Indicator extends Component {
 
     render() {
         const { isopen } = this.state;
-        const {index, name, successful, criteria, description, errors} = this.props;
+        const {index, name, successful, description, errors} = this.props;
 
         return (
             <div className="mb-3">
@@ -122,7 +122,6 @@ class Indicator extends Component {
                     </IndicatorItem>
                     <IndicatorDetails
                         isopen={isopen}
-                        criteria={criteria}
                         description={description}
                         errors={errors}
                     />

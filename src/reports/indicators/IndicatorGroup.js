@@ -4,14 +4,15 @@ import Indicator from "./Indicator";
 import {Container} from "react-bootstrap";
 
 const GroupCard = styled.div`
-  margin-top: 40px;
+  margin-top: 30px;
+  margin-bottom: 20px;
   padding: 20px 25px;  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 `;
 
-const IndicatorList = ({ data }) => {
+const IndicatorGroup = ({ name, data }) => {
 
     let indicators;
     if (data.length > 0) {
@@ -32,7 +33,7 @@ const IndicatorList = ({ data }) => {
     return (
         <div>
             <GroupCard>
-                <h2 className="mb-3">Grupo</h2>
+                <h2 className="mb-3">{name}</h2>
                 <Container>
                     {indicators}
                 </Container>
@@ -41,4 +42,4 @@ const IndicatorList = ({ data }) => {
     );
 }
 
-export default IndicatorList;
+export default IndicatorGroup;

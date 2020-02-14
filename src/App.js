@@ -4,13 +4,13 @@ import validatorApi from "./validatorApi";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-import IndicatorList from "./reports/indicators/IndicatorList";
+import IndicatorGroup from "./reports/indicators/IndicatorGroup";
 import {Container} from "react-bootstrap";
 
 class App extends Component {
 
     state = {
-        indicators: [],
+        groups: [],
         isLoading: true
     }
 
@@ -22,7 +22,7 @@ class App extends Component {
         axios.get(validatorApi.urls().report(periodo, componente))
             .then(response => {
                 this.setState({
-                    indicators: response.data.indicadores,
+                    groups: response.data.grupos,
                     isLoading: false
                 })
             })
@@ -34,15 +34,24 @@ class App extends Component {
             });
     };
 
+    getGroups = () => {
+        return this.state.groups.map((group, index) => (
+            <IndicatorGroup
+                key={index}
+                name={group.nombre}
+                data={group.indicadores}
+            />
+        ));
+    }
+
+
     render() {
-        const { indicators, isLoading } = this.state;
+        const { isLoading } = this.state;
 
         return (
             <Container>
                 { !isLoading ?
-                    <IndicatorList
-                        data={indicators}
-                    />
+                    <div>{this.getGroups()}</div>
                     :
                     <p>Cargando...</p>
                 }
