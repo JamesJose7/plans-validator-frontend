@@ -20,8 +20,9 @@ const IndicatorGroup = ({ name, data }) => {
             <Indicator
                 key={indicator.id}
                 index={index + 1}
+                type={indicator.tipo}
                 name={indicator.nombre}
-                successful={indicator.exitoso}
+                result={indicator.resultado}
                 criteria={indicator.criterio}
                 description={indicator.descripcion}
                 errors={indicator.errores === null ? [] : indicator.errores}

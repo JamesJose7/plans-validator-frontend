@@ -6,6 +6,12 @@ import ArrowIcon from "../../icons/ArrowIcon";
 import InfoIcon from "../../icons/InfoIcon";
 import IndicatorDetails from "./IndicatorDetails";
 
+import MathUtils from "../../util/Math";
+
+const colorSuccess = '#9ACD32';
+const colorFailure = '#E30613';
+const colorWarning = '#FFDB01';
+
 const NumberCircle = styled.div`
     background: #fff;
     text-align: center;
@@ -58,13 +64,40 @@ const CenterWrapper = styled.div`
     vertical-align: middle;
 `;
 
-const colorSuccess = '#9ACD32'
-const colorFailure = '#E30613'
-const SuccessBar = styled(({successful, ...props}) => <ProgressBar {...props} />)`
+const SuccessBar = styled(({color, ...props}) => <ProgressBar {...props} />)`
     height: .5rem;
     .progress-bar {
-      background-color: ${props => props.successful ? colorSuccess : colorFailure};
+      background-color: ${props => props.color};
     }
+`;
+
+const RangeResult = styled.p`
+    font-weight: bold;
+    display: inline-block;
+    position: absolute;
+    vertical-align: middle;
+    height: 53px;
+    line-height: 53px;
+    right: 15px;
+    margin: 0;
+`;
+
+const RangeMinMax = styled.p`
+    font-size: .8em;
+    margin: 0;
+    display: inline-block;
+`;
+
+const rangeColumnNumberStyles = {
+    paddingLeft: '8px',
+    paddingRight: '8px',
+    textAlign: 'center'
+}
+
+const BinaryResultText = styled.p`
+    font-size: 1.2em;
+    margin: 0;
+    color: ${props => props.color};
 `;
 
 class Indicator extends Component {
@@ -81,7 +114,10 @@ class Indicator extends Component {
 
     render() {
         const { isopen } = this.state;
-        const {index, name, successful, description, errors} = this.props;
+        const {index, type, name, result, description, errors} = this.props;
+
+        // Find out if it has errors according to its type
+        let hasErrors = errors.length > 0;
 
         return (
             <div className="mb-3">
@@ -94,16 +130,21 @@ class Indicator extends Component {
                                 <p className="m-0">{index}</p>
                             </NumberCircle>
                             <IndicatorName>{name}</IndicatorName>
+                            {type === 1 ?
+                                <RangeResult>{result.resultado}</RangeResult>
+                                : null
+                            }
                         </Col>
                         <Col md={3} lg={3} className="indicator-section position-relative">
-                            <ItemsContainer>
-                                <CenterWrapper>
-                                    <SuccessBar
-                                        now={100}
-                                        successful={successful}
-                                    />
-                                </CenterWrapper>
-                            </ItemsContainer>
+                            {type === 1 ?
+                                <RangeTypeResult
+                                    result={result}
+                                />
+                                :
+                                <BinaryTypeResult
+                                    result={result}
+                                />
+                            }
                         </Col>
                         <Col md={2} lg={1} className="indicator-section border-0">
                             <ItemsContainer>
@@ -111,7 +152,7 @@ class Indicator extends Component {
                                     className="text-right"
                                 >
                                     <InfoIcon
-                                        successful={successful}
+                                        successful={!hasErrors}
                                     />
                                     <ArrowIcon
                                         isopen={isopen}
@@ -131,6 +172,59 @@ class Indicator extends Component {
         )
     }
 
+}
+
+const BinaryTypeResult = ({result}) => {
+
+    return (
+        <ItemsContainer>
+            <CenterWrapper className="text-center">
+                <BinaryResultText
+                    color={result ? colorSuccess : colorFailure}
+                >{result ? 'Cumple' : 'No cumple'}</BinaryResultText>
+            </CenterWrapper>
+        </ItemsContainer>
+    )
+}
+
+const RangeTypeResult = ({ result }) => {
+    const {resultado, min, max} = result;
+
+    const barPercentage = MathUtils.calculateRangePercentage(min, max, resultado);
+    let barColor = colorFailure;
+    if (barPercentage > 20 && barPercentage < 80)
+        barColor = colorWarning;
+    if (barPercentage >= 40 && barPercentage <= 60)
+        barColor = colorSuccess;
+
+    return (
+        <Row>
+            <Col sm={2} style={rangeColumnNumberStyles}>
+                <ItemsContainer>
+                    <CenterWrapper>
+                        <RangeMinMax>{min}</RangeMinMax>
+                    </CenterWrapper>
+                </ItemsContainer>
+            </Col>
+            <Col sm={8} className="p-0">
+                <ItemsContainer>
+                    <CenterWrapper>
+                        <SuccessBar
+                            now={barPercentage}
+                            color={barColor}
+                        />
+                    </CenterWrapper>
+                </ItemsContainer>
+            </Col>
+            <Col sm={2} style={rangeColumnNumberStyles}>
+                <ItemsContainer>
+                    <CenterWrapper>
+                        <RangeMinMax>{max}</RangeMinMax>
+                    </CenterWrapper>
+                </ItemsContainer>
+            </Col>
+        </Row>
+    )
 }
 
 export default Indicator;
