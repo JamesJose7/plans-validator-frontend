@@ -1,16 +1,7 @@
 import React from 'react';
-import styled from "styled-components";
 import Indicator from "./Indicator";
 import {Container} from "react-bootstrap";
-
-const GroupCard = styled.div`
-  margin-top: 30px;
-  margin-bottom: 20px;
-  padding: 20px 25px;  
-  background: #FFFFFF;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-`;
+import {GroupCard} from "../../App";
 
 const IndicatorGroup = ({ name, data }) => {
 
