@@ -8,6 +8,7 @@ import IndicatorGroup from "./reports/indicators/IndicatorGroup";
 import {Col, Container, Row} from "react-bootstrap";
 import styled from "styled-components";
 import PieChart from "./graphs/PieChart";
+import ReportStats from "./reports/ReportStats";
 
 export const GroupCard = styled.div`
   margin-top: 30px;
@@ -17,39 +18,6 @@ export const GroupCard = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 `;
-
-const data = [
-    {
-        "id": "ruby",
-        "label": "ruby",
-        "value": 201,
-        "color": "hsl(319, 70%, 50%)"
-    },
-    {
-        "id": "java",
-        "label": "java",
-        "value": 593,
-        "color": "hsl(39, 70%, 50%)"
-    },
-    {
-        "id": "c",
-        "label": "c",
-        "value": 258,
-        "color": "hsl(205, 70%, 50%)"
-    },
-    {
-        "id": "make",
-        "label": "make",
-        "value": 352,
-        "color": "hsl(343, 70%, 50%)"
-    },
-    {
-        "id": "rust",
-        "label": "rust",
-        "value": 490,
-        "color": "hsl(100, 70%, 50%)"
-    }
-]
 
 class App extends Component {
 
@@ -123,8 +91,13 @@ class App extends Component {
                         <GroupCard>
                             <Row>
                                 <Col md={8}>
-                                    <h1>{name}</h1>
-                                    <p>{description}</p>
+                                    <h1 style={{color: "#303F9F"}}>{name}</h1>
+                                    <p style={{textAlign: "justify"}}>{description}</p>
+                                    <ReportStats
+                                        total={stats.totalIndicadores}
+                                        successful={stats.exitosos}
+                                        failed={stats.fallidos}
+                                    />
                                     {/*<h4>Indicadores</h4>
                                     <p><strong>Total: </strong>{stats.totalIndicadores}</p>
                                     <p><strong>Cumplen: </strong>{stats.exitosos}</p>

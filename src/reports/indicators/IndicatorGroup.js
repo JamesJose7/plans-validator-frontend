@@ -38,7 +38,7 @@ const IndicatorGroup = ({ name, data }) => {
     return (
         <div>
             <GroupCard>
-                <h2 className="mb-3">{name}</h2>
+                <h2 className="mb-3" style={{color: "#303F9F"}}>{name}</h2>
                 <IndicatorsContainer>
                     {indicators}
                 </IndicatorsContainer>
