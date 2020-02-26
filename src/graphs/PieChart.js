@@ -3,13 +3,41 @@ import { ResponsivePie} from "@nivo/pie";
 import styled from "styled-components";
 
 const ChartContainer = styled.div`
-  height: 300px;
+    height: 300px;
 `;
 
-const PieChart = ({data}) => {
-    console.log(data)
+const colorSuccess = '#9ACD32';
+const colorFailure = '#E30613';
+const colorWarning = '#FFDB01';
+
+const ChartPercentage = styled.div`
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    top: 109px;
+    p {
+        font-size: 1.8em;
+        color: ${props => props.color};
+    }
+`;
+
+const PieChart = ({ successPercentage, data }) => {
+
+    let color = colorFailure;
+    if (successPercentage >= 33)
+        color = colorWarning
+    if (successPercentage >= 66)
+        color = colorSuccess
+
     return (
         <ChartContainer>
+            <ChartPercentage
+                color={color}
+            >
+                <p>{successPercentage}%</p>
+            </ChartPercentage>
             <ResponsivePie
                 data={data}
                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}

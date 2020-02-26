@@ -9,6 +9,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import styled from "styled-components";
 import PieChart from "./graphs/PieChart";
 import ReportStats from "./reports/ReportStats";
+import MathUtils from "./util/Math";
 
 export const GroupCard = styled.div`
   margin-top: 30px;
@@ -84,6 +85,10 @@ class App extends Component {
     render() {
         const { isLoading, name, description, stats } = this.state;
 
+        let successPercentage = 0;
+        if (!isLoading)
+            successPercentage = MathUtils.calculatePercentage(stats.exitosos, stats.totalIndicadores);
+
         return (
             <Container>
                 { !isLoading ?
@@ -105,6 +110,7 @@ class App extends Component {
                                 </Col>
                                 <Col md={4}>
                                     <PieChart
+                                        successPercentage={successPercentage}
                                         data={this.buildChartData(stats.fallidos, stats.exitosos)}
                                     />
                                 </Col>
