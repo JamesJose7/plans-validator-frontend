@@ -29,7 +29,7 @@ const NumberCircle = styled.div`
 
 const IndicatorItem = styled(Row)`
     background: #F9F9F9;
-    border-radius: 100px;
+    border-radius: 10px;
     cursor: pointer;
     position: relative;
     z-index: 50;
@@ -39,6 +39,9 @@ const IndicatorItem = styled(Row)`
         }
     }
     @media ${device.medium} {
+        & {
+            border-radius: 100px;
+        }
         .indicator-section {
             border-right: 5px solid #fff;
         }
@@ -125,7 +128,7 @@ class Indicator extends Component {
                     <IndicatorItem
                         onClick={this.handleOpenClose}
                     >
-                        <Col md={7} lg={8} className="indicator-section">
+                        <Col xs={12} md={7} lg={8} className="indicator-section">
                             <NumberCircle>
                                 <p className="m-0">{index}</p>
                             </NumberCircle>
@@ -135,7 +138,7 @@ class Indicator extends Component {
                                 : null
                             }
                         </Col>
-                        <Col md={3} lg={3} className="indicator-section position-relative">
+                        <Col xs={9} md={3} lg={3} className="indicator-section position-relative">
                             {type === 1 ?
                                 <RangeTypeResult
                                     result={result}
@@ -146,7 +149,7 @@ class Indicator extends Component {
                                 />
                             }
                         </Col>
-                        <Col md={2} lg={1} className="indicator-section border-0">
+                        <Col xs={3} md={2} lg={1} className="indicator-section border-0">
                             <ItemsContainer>
                                 <CenterWrapper
                                     className="text-right"
@@ -199,14 +202,14 @@ const RangeTypeResult = ({ result }) => {
 
     return (
         <Row>
-            <Col sm={2} style={rangeColumnNumberStyles}>
+            <Col xs={2} style={rangeColumnNumberStyles}>
                 <ItemsContainer>
                     <CenterWrapper>
                         <RangeMinMax>{min}</RangeMinMax>
                     </CenterWrapper>
                 </ItemsContainer>
             </Col>
-            <Col sm={8} className="p-0">
+            <Col xs={8} className="p-0">
                 <ItemsContainer>
                     <CenterWrapper>
                         <SuccessBar
@@ -216,7 +219,7 @@ const RangeTypeResult = ({ result }) => {
                     </CenterWrapper>
                 </ItemsContainer>
             </Col>
-            <Col sm={2} style={rangeColumnNumberStyles}>
+            <Col xs={2} style={rangeColumnNumberStyles}>
                 <ItemsContainer>
                     <CenterWrapper>
                         <RangeMinMax>{max}</RangeMinMax>

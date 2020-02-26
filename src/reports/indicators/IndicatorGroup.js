@@ -2,6 +2,19 @@ import React from 'react';
 import Indicator from "./Indicator";
 import {Container} from "react-bootstrap";
 import {GroupCard} from "../../App";
+import {device} from '../../device'
+import styled from "styled-components";
+
+const IndicatorsContainer = styled(Container)`
+    padding-left: 0;
+    padding-right: 0;
+    @media ${device.medium} {
+        & {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+`;
 
 const IndicatorGroup = ({ name, data }) => {
 
@@ -26,9 +39,9 @@ const IndicatorGroup = ({ name, data }) => {
         <div>
             <GroupCard>
                 <h2 className="mb-3">{name}</h2>
-                <Container>
+                <IndicatorsContainer>
                     {indicators}
-                </Container>
+                </IndicatorsContainer>
             </GroupCard>
         </div>
     );
