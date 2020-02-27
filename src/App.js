@@ -10,6 +10,7 @@ import styled from "styled-components";
 import PieChart from "./graphs/PieChart";
 import ReportStats from "./reports/ReportStats";
 import MathUtils from "./util/Math";
+import ErrorAlert from "./util/ErrorAlert";
 
 export const GroupCard = styled.div`
   margin-top: 30px;
@@ -27,7 +28,8 @@ class App extends Component {
         description: '',
         stats: {},
         groups: [],
-        isLoading: true
+        isLoading: true,
+        error: undefined
     }
 
     componentDidMount() {
@@ -47,10 +49,34 @@ class App extends Component {
                 })
             })
             .catch(error => {
-                if (error.response.data.status !== undefined)
-                    console.log(error.response.data); // Handle custom error response
-                else
-                    console.log('Error analizando y recolectando datos del API', error)
+                let errorBody = {}
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    if (error.response.data.status) {
+                        // console.log(error.response.data); // Handle custom error response
+                        errorBody.status = error.response.data.status;
+                        errorBody.message = error.response.data.message;
+                    } else {
+                        errorBody.status = error.response.status;
+                        errorBody.message = error.message;
+                    }
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    errorBody.status = 500;
+                    errorBody.message = error.message;
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                    errorBody.status = 500;
+                    errorBody.message = error.message;
+                }
+                console.log('Error analizando y recolectando datos del API', error)
+                // Change state and show error
+                this.setState({
+                    isLoading: false,
+                    error: errorBody
+                })
             });
     };
 
@@ -83,7 +109,7 @@ class App extends Component {
 
 
     render() {
-        const { isLoading, name, description, stats } = this.state;
+        const { isLoading, error, name, description, stats } = this.state;
 
         let successPercentage = 0;
         if (!isLoading)
@@ -93,30 +119,34 @@ class App extends Component {
             <Container>
                 { !isLoading ?
                     <div>
-                        <GroupCard>
-                            <Row>
-                                <Col md={8}>
-                                    <h1 style={{color: "#303F9F"}}>{name}</h1>
-                                    <p style={{textAlign: "justify"}}>{description}</p>
-                                    <ReportStats
-                                        total={stats.totalIndicadores}
-                                        successful={stats.exitosos}
-                                        failed={stats.fallidos}
-                                    />
-                                    {/*<h4>Indicadores</h4>
-                                    <p><strong>Total: </strong>{stats.totalIndicadores}</p>
-                                    <p><strong>Cumplen: </strong>{stats.exitosos}</p>
-                                    <p><strong>No cumplen: </strong>{stats.fallidos}</p>*/}
-                                </Col>
-                                <Col md={4}>
-                                    <PieChart
-                                        successPercentage={successPercentage}
-                                        data={this.buildChartData(stats.fallidos, stats.exitosos)}
-                                    />
-                                </Col>
-                            </Row>
-                        </GroupCard>
-                        {this.getGroups()}
+                        { !error ?
+                            <div>
+                                <GroupCard>
+                                    <Row>
+                                        <Col md={8}>
+                                            <h1 style={{color: "#303F9F"}}>{name}</h1>
+                                            <p style={{textAlign: "justify"}}>{description}</p>
+                                            <ReportStats
+                                                total={stats.totalIndicadores}
+                                                successful={stats.exitosos}
+                                                failed={stats.fallidos}
+                                            />
+                                        </Col>
+                                        <Col md={4}>
+                                            <PieChart
+                                                successPercentage={successPercentage}
+                                                data={this.buildChartData(stats.fallidos, stats.exitosos)}
+                                            />
+                                        </Col>
+                                    </Row>
+                                </GroupCard>
+                                {this.getGroups()}
+                            </div>
+                        :
+                            <ErrorAlert
+                                {...error}
+                            />
+                        }
                     </div>
                     :
                     <p>Cargando...</p>
