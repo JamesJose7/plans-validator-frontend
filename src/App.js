@@ -4,6 +4,7 @@ import validatorApi from "./validatorApi";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+import { WindMillLoading } from 'react-loadingg';
 import IndicatorGroup from "./reports/indicators/IndicatorGroup";
 import {Col, Container, Row} from "react-bootstrap";
 import styled from "styled-components";
@@ -149,7 +150,12 @@ class App extends Component {
                         }
                     </div>
                     :
-                    <p>Cargando...</p>
+                    <div>
+                        <WindMillLoading
+                            color="#388E3C"
+                            size="large"
+                        />
+                    </div>
                 }
             </Container>
         )
