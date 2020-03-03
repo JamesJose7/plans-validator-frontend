@@ -1,5 +1,5 @@
 import React from "react";
-import {GroupCard} from "../App";
+import {GroupCard} from "../Report";
 import styled from "styled-components";
 
 const ErrorTitle = styled.h1`

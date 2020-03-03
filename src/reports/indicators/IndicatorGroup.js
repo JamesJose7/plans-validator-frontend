@@ -1,7 +1,7 @@
 import React from 'react';
 import Indicator from "./Indicator";
 import {Container} from "react-bootstrap";
-import {GroupCard} from "../../App";
+import {GroupCard} from "../../Report";
 import {device} from '../../device'
 import styled from "styled-components";
 
