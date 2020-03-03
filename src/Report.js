@@ -128,7 +128,7 @@ class Report extends Component {
                             <div>
                                 <GroupCard>
                                     <Row>
-                                        <Col md={8}>
+                                        <Col xl={8} lg={7}>
                                             <h1 style={{color: "#303F9F"}}>{name}</h1>
                                             <p style={{textAlign: "justify"}}>{description}</p>
                                             <ReportStats
@@ -137,7 +137,7 @@ class Report extends Component {
                                                 failed={stats.fallidos}
                                             />
                                         </Col>
-                                        <Col md={4}>
+                                        <Col xl={4} lg={5}>
                                             <PieChart
                                                 successPercentage={successPercentage}
                                                 data={this.buildChartData(stats.fallidos, stats.exitosos)}
